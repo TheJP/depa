@@ -1,32 +1,60 @@
 package ch.fhnw.depa.u01;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import java.awt.GridLayout;
+public class ColorPicker extends JFrame implements Observer {
 
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JScrollBar;
-
-import java.awt.Color;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
-
-public class ColorPicker extends JFrame {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2156450603943081648L;
 	private JPanel contentPane;
 	private JTextField txtRed;
 	private JTextField txtGreen;
 	private JTextField txtBlue;
+	private JPanel pnlColor;
+	private JScrollBar scrRed;
+	private JScrollBar scrGreen;
+	private JScrollBar scrBlue;
+	private JLabel lblRed;
+	private JLabel lblGreen;
+	private JLabel lblBlue;
+	private JButton btnBrighter;
+	private JButton btnDarker;
+
+	@Override
+	public void update(Observable o, Object x) {
+		if(o instanceof ColorPickerData) {
+			ColorPickerData data = (ColorPickerData)o;
+			Color c = new Color(data.getRed(), data.getGreen(), data.getBlue());
+			pnlColor.setBackground(c);
+			scrRed.setValue(data.getRed());
+			scrGreen.setValue(data.getGreen());
+			scrBlue.setValue(data.getBlue());
+			txtRed.setText(Short.toString(data.getRed()));
+			txtGreen.setText(Short.toString(data.getGreen()));
+			txtBlue.setText(Short.toString(data.getBlue()));
+			lblRed.setText(Integer.toString((int)data.getRed(), 16).toUpperCase());
+			lblGreen.setText(Integer.toString((int)data.getGreen(), 16).toUpperCase());
+			lblBlue.setText(Integer.toString((int)data.getBlue(), 16).toUpperCase());
+			btnDarker.setEnabled(data.getRed() + data.getGreen() + data.getBlue() > 0);
+			btnBrighter.setEnabled(data.getRed() < 255 || data.getGreen() < 255 || data.getBlue() < 255);
+		}
+	}
 
 	/**
 	 * Launch the application.
@@ -48,6 +76,10 @@ public class ColorPicker extends JFrame {
 	 * Create the frame.
 	 */
 	public ColorPicker() {
+		ColorPickerData data = new ColorPickerData();
+		data.addObserver(this);
+		ColorPickerActionListener listener = new ColorPickerActionListener(data);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 314);
 		contentPane = new JPanel();
@@ -59,48 +91,54 @@ public class ColorPicker extends JFrame {
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new GridLayout(0, 3, 5, 5));
 		
-		JScrollBar scrRed = new JScrollBar();
+		scrRed = new JScrollBar();
 		scrRed.setBackground(Color.RED);
-		scrRed.setMaximum(255);
+		scrRed.setMaximum(265);
 		scrRed.setOrientation(JScrollBar.HORIZONTAL);
+		scrRed.getModel().addChangeListener(listener.createScrollListener(ColorPickerActionListener.ScrollListener.RED));
 		topPanel.add(scrRed);
 		
 		txtRed = new JTextField();
+		txtRed.setEditable(false);
 		topPanel.add(txtRed);
 		txtRed.setColumns(10);
 		
-		JLabel lblRed = new JLabel("00");
+		lblRed = new JLabel("00");
 		topPanel.add(lblRed);
 		
-		JScrollBar scrGreen = new JScrollBar();
+		scrGreen = new JScrollBar();
 		scrGreen.setBackground(Color.GREEN);
 		scrGreen.setOrientation(JScrollBar.HORIZONTAL);
-		scrGreen.setMaximum(255);
+		scrGreen.setMaximum(265);
+		scrGreen.getModel().addChangeListener(listener.createScrollListener(ColorPickerActionListener.ScrollListener.GREEN));
 		topPanel.add(scrGreen);
 		
 		txtGreen = new JTextField();
+		txtGreen.setEditable(false);
 		txtGreen.setColumns(10);
 		topPanel.add(txtGreen);
 		
-		JLabel lblGreen = new JLabel("00");
+		lblGreen = new JLabel("00");
 		topPanel.add(lblGreen);
 		
-		JScrollBar scrBlue = new JScrollBar();
+		scrBlue = new JScrollBar();
 		scrBlue.setBackground(Color.BLUE);
 		scrBlue.setOrientation(JScrollBar.HORIZONTAL);
-		scrBlue.setMaximum(255);
+		scrBlue.setMaximum(265);
+		scrBlue.getModel().addChangeListener(listener.createScrollListener(ColorPickerActionListener.ScrollListener.BLUE));
 		topPanel.add(scrBlue);
 		
 		txtBlue = new JTextField();
+		txtBlue.setEditable(false);
 		txtBlue.setColumns(10);
 		topPanel.add(txtBlue);
 		
-		JLabel lblBlue = new JLabel("00");
+		lblBlue = new JLabel("00");
 		topPanel.add(lblBlue);
 		
 		JPanel botPanel = new JPanel();
 		contentPane.add(botPanel, BorderLayout.CENTER);
-		botPanel.setLayout(new BorderLayout(0, 0));
+		botPanel.setLayout(new BorderLayout(5, 5));
 		
 		JPanel botRightPanel = new JPanel();
 		botPanel.add(botRightPanel, BorderLayout.EAST);
@@ -110,7 +148,7 @@ public class ColorPicker extends JFrame {
 		btnRed.setActionCommand("red");
 		botRightPanel.add(btnRed);
 		
-		JButton btnBrighter = new JButton("Brighter");
+		btnBrighter = new JButton("Brighter");
 		btnBrighter.setActionCommand("brighter");
 		botRightPanel.add(btnBrighter);
 		
@@ -118,7 +156,8 @@ public class ColorPicker extends JFrame {
 		btnGreen.setActionCommand("green");
 		botRightPanel.add(btnGreen);
 		
-		JButton btnDarker = new JButton("Darker");
+		btnDarker = new JButton("Darker");
+		btnDarker.setEnabled(false);
 		btnDarker.setActionCommand("darker");
 		botRightPanel.add(btnDarker);
 		
@@ -156,8 +195,13 @@ public class ColorPicker extends JFrame {
 		
 		JLabel label_4 = new JLabel("");
 		botRightPanel.add(label_4);
+
+		for(Component c : botRightPanel.getComponents()){
+			if(c instanceof JButton){ ((JButton)c).addActionListener(listener); }
+		}
 		
-		JPanel pnlColor = new JPanel();
+		pnlColor = new JPanel();
+		pnlColor.setBackground(Color.BLACK);
 		botPanel.add(pnlColor, BorderLayout.CENTER);
 	}
 
