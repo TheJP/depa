@@ -12,8 +12,8 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import jdraw.framework.Figure;
+import jdraw.framework.FigureEvent;
 import jdraw.framework.FigureHandle;
-import jdraw.framework.FigureListener;
 
 /**
  * Represents rectangles in JDraw.
@@ -21,7 +21,9 @@ import jdraw.framework.FigureListener;
  * @author Christoph Denzler
  *
  */
-public class Rect implements Figure {
+public class Rect extends FigureBase {
+
+	private static final long serialVersionUID = 7809983492535289004L;
 	/**
 	 * Use the java.awt.Rectangle in order to save/reuse code.
 	 */
@@ -54,13 +56,15 @@ public class Rect implements Figure {
 	@Override
 	public void setBounds(Point origin, Point corner) {
 		rectangle.setFrameFromDiagonal(origin, corner);
-		// TODO notification of change
+		notifyObservers(new FigureEvent(this));
 	}
 
 	@Override
 	public void move(int dx, int dy) {
-		rectangle.setLocation(rectangle.x + dx, rectangle.y + dy);
-		// TODO notification of change
+		if(dx != 0 || dy != 0){
+			rectangle.setLocation(rectangle.x + dx, rectangle.y + dy);
+			notifyObservers(new FigureEvent(this));
+		}
 	}
 
 	@Override
@@ -83,18 +87,8 @@ public class Rect implements Figure {
 	}
 
 	@Override
-	public void addFigureListener(FigureListener listener) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void removeFigureListener(FigureListener listener) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public Figure clone() {
-		return null;
+		return new Rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
 
 }
