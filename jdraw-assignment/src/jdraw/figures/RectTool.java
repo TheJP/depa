@@ -13,7 +13,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import jdraw.framework.DrawContext;
-import jdraw.framework.DrawTool;
 import jdraw.framework.DrawView;
 
 /**
@@ -24,12 +23,7 @@ import jdraw.framework.DrawView;
  * @author  Christoph Denzler
  * @version 2.1, 27.09.07
  */
-public class RectTool implements DrawTool {
-  
-	/** 
-	 * the image resource path. 
-	 */
-	private static final String IMAGES = "/images/";
+public class RectTool extends ToolBase {
 
 	/**
 	 * The context we use for drawing.

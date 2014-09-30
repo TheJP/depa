@@ -1,20 +1,20 @@
 Testsuite: jdraw.test.JDrawTests
-Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 sec
+Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.235 sec
 
-Testcase: testAddFigure3 took 0 sec
-Testcase: testAddFigure4 took 0 sec
-Testcase: testAddFigure6 took 0 sec
-Testcase: testAddFigure5 took 0 sec
+Testcase: testSetFigureIndex2 took 0.016 sec
+Testcase: testSetFigureIndex3 took 0.015 sec
+Testcase: testRemoveAllFigures1 took 0.016 sec
+Testcase: testRemoveFigure1 took 0.016 sec
+Testcase: testRemoveFigure2 took 0.015 sec
+Testcase: testRemoveAllFigures2 took 0.016 sec
+Testcase: testSetFigureIndex1 took 0.015 sec
 Testcase: testAddFigure1 took 0 sec
 Testcase: testAddFigure2 took 0 sec
-Testcase: testSetFigureIndex2 took 0 sec
-Testcase: testRemoveAllFigures2 took 0 sec
-Testcase: testRemoveFigure2 took 0 sec
-Testcase: testSetFigureIndex3 took 0 sec
-Testcase: testSetFigureIndex1 took 0 sec
-Testcase: testRemoveAllFigures1 took 0.015 sec
-Testcase: testRemoveFigure1 took 0 sec
-Testcase: testRemoveListener took 0 sec
+Testcase: testAddFigure3 took 0.016 sec
+Testcase: testAddFigure4 took 0 sec
+Testcase: testAddFigure5 took 0.015 sec
+Testcase: testAddFigure6 took 0.016 sec
+Testcase: testNotification1 took 0.031 sec
+Testcase: testRemoveListener took 0.016 sec
 Testcase: testNotification2 took 0 sec
 Testcase: testMultiListeners took 0 sec
-Testcase: testNotification1 took 0 sec

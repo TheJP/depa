@@ -16,6 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import jdraw.figures.LSBBrushTool;
+import jdraw.figures.PolygonTool;
 import jdraw.figures.RectTool;
 import jdraw.framework.DrawModel;
 import jdraw.framework.DrawTool;
@@ -174,6 +176,8 @@ public class StdContext extends AbstractContext {
 		// TODO Add new figure tools here
 		DrawTool rectangleTool = new RectTool(this);
 		addTool(rectangleTool);
+		addTool(new PolygonTool(this));
+		addTool(new LSBBrushTool(this));
 	}
 
 	/**
