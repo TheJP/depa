@@ -28,3 +28,6 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+#Ignored Projects
+03_Observer2
