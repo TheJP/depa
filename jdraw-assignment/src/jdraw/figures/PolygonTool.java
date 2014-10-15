@@ -41,7 +41,11 @@ public class PolygonTool extends ToolBase {
 	}
 
 	@Override
-	public void mouseDrag(int x, int y, MouseEvent e) { }
+	public void mouseDrag(int x, int y, MouseEvent e) {
+		/*if(polygon.origin() != null){
+			polygon.setRecent(x, y);
+		}*/
+	}
 
 	@Override
 	public void mouseUp(int x, int y, MouseEvent e) {

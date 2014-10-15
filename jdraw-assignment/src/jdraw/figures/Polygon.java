@@ -38,6 +38,18 @@ public class Polygon extends FigureBase {
 		return new Point(figure.xpoints[0], figure.ypoints[0]);
 	}
 
+	public Point getRecent(){
+		if(figure.npoints <= 0){ return null; }
+		return new Point(figure.xpoints[figure.npoints-1], figure.ypoints[figure.npoints-1]);
+	}
+
+	public void setRecent(int x, int y){
+		if(figure.npoints > 0){
+			figure.xpoints[figure.npoints-1] = x;
+			figure.ypoints[figure.npoints-1] = y;
+		}
+	}
+
 	@Override
 	public void move(int dx, int dy) {
 		if(dx != 0 || dy != 0){
